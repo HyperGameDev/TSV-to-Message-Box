@@ -1,13 +1,13 @@
+HBoxContainer
+Label
+VBoxContainer
 CanvasLayer
 MarginContainer
 ScrollContainer
-VBoxContainer
 Button
 PanelContainer
-Label
 Control
 GridContainer
 HSeparator
 VSeparator
-HBoxContainer
 FileDialog

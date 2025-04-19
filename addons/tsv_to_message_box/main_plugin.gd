@@ -8,3 +8,6 @@ extends Control
 
 @onready var vbox_tsv_table: VBoxContainer = %VBox_LoadedTSV
 @onready var tsv_preview: PanelContainer = %TSV_Preview
+
+@onready var hbox_error: HBoxContainer = %HBox_ERROR
+@onready var label_error_msg: Label = %Label_ERROR_MSG

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c84pa14kfyf67"]
+[gd_scene load_steps=9 format=3 uid="uid://c84pa14kfyf67"]
 
 [ext_resource type="Script" uid="uid://ba2oa3eyk8m7b" path="res://addons/tsv_to_message_box/main_plugin.gd" id="1_nck0t"]
 [ext_resource type="Theme" uid="uid://dfijk5eiowfdi" path="res://addons/tsv_to_message_box/theme/ui.tres" id="2_2blsu"]
@@ -19,6 +19,8 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0.140447, 0.140447, 0.140447, 0.643137)
+
+[sub_resource type="FontVariation" id="FontVariation_jfcr7"]
 
 [node name="MainPlugin" type="Control"]
 custom_minimum_size = Vector2(0, 600)
@@ -177,16 +179,39 @@ layout_mode = 2
 theme_override_constants/separation = 10
 theme_override_styles/separator = SubResource("StyleBoxEmpty_i5o2x")
 
-[node name="MarginContainer_Generate" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+[node name="VBox_Generate" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 200
-theme_override_constants/margin_right = 200
 
-[node name="Button_Generate" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer_Generate"]
+[node name="Button_Generate" type="Button" parent="MarginContainer/VBoxContainer/VBox_Generate"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "Generate"
+
+[node name="HBox_ERROR" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBox_Generate"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Label_ERROR" type="Label" parent="MarginContainer/VBoxContainer/VBox_Generate/HBox_ERROR"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.151344, 0.108333, 1)
+theme_override_colors/font_shadow_color = Color(0.144063, 0.144063, 0.144063, 1)
+theme_override_constants/shadow_outline_size = 5
+theme_override_fonts/font = SubResource("FontVariation_jfcr7")
+text = "ERROR:"
+horizontal_alignment = 1
+
+[node name="Label_ERROR_MSG" type="Label" parent="MarginContainer/VBoxContainer/VBox_Generate/HBox_ERROR"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0.144063, 0.144063, 0.144063, 1)
+theme_override_constants/shadow_outline_size = 5
+theme_override_fonts/font = SubResource("FontVariation_jfcr7")
+text = "You did a bad thing."
+horizontal_alignment = 1
 
 [node name="HSeparator6" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

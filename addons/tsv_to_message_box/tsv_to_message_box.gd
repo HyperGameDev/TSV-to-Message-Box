@@ -17,6 +17,8 @@ func _enter_tree() -> void:
 	
 	create_file_dialog()
 	
+	scene_changed.connect(_on_scene_changed)
+	
 	main_plugin.button_upload.pressed.connect(_on_upload_pressed)
 	main_plugin.button_generate.pressed.connect(_on_generate_pressed)
 
@@ -88,21 +90,53 @@ func generate_table_preview() -> void:
 		tsv_table.add_child(tsv_row)
 		tsv_row.get_node("%Label_Message").text = message_array[i]
 		tsv_row.get_node("%Label_Signal").text = signal_array[i]
+		
+func _on_scene_changed(scene):
+	var generate_button: Button = main_plugin.button_generate
+	
+	if scene == null:
+		generate_button.disabled = true
+		generate_button.text = "[SCENE IS EMPTY]"
+	else:
+		generate_button.disabled = false
+		generate_button.text = "Generate (in " + str(scene.name) + ")"
+	
+		
 
 func show_tsv_to_generate() -> void:
 	var tsv_preview: PanelContainer = main_plugin.tsv_preview
 	var generate_button: Button = main_plugin.button_generate
+	var scene_being_edited := get_editor_interface().get_edited_scene_root()
 	
 	tsv_preview.visible = true
+	
+	_on_scene_changed(scene_being_edited)
 	generate_button.visible = true
 	
 func _on_generate_pressed() -> void:
-	var message_box := preload("res://addons/tsv_to_message_box/tsv_message_box.tscn").instantiate()
 	var scene_being_edited := get_editor_interface().get_edited_scene_root()
-	if scene_being_edited:
-		scene_being_edited.add_child(message_box)
-		add_box_to_edited_scene(scene_being_edited,message_box)
-		transfer_messages(message_box)
+	var add_a_box: bool = true
+	
+	var hbox_error: HBoxContainer = main_plugin.hbox_error
+	var label_error_msg: Label = main_plugin.label_error_msg
+	
+	for node in scene_being_edited.get_children():
+		if node is MessageBox_TSV_Import:
+			add_a_box = false
+			
+			hbox_error.visible = true
+			label_error_msg.text = "A message box already exists!"
+			
+			break
+			
+	if add_a_box:
+		hbox_error.visible = false
+		var message_box := preload("res://addons/tsv_to_message_box/tsv_message_box.tscn").instantiate()
+
+		if scene_being_edited:
+			scene_being_edited.add_child(message_box)
+			add_box_to_edited_scene(scene_being_edited,message_box)
+			transfer_messages(message_box)
 		
 func transfer_messages(message_box) -> void:
 	for i in lines_to_generate:
