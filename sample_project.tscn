@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dw1rhlsjpawc5"]
 
-[ext_resource type="Script" uid="uid://bxpl1e7wusp8a" path="res://tsv_message_box.gd" id="1_u64kl"]
+[ext_resource type="Script" uid="uid://bxpl1e7wusp8a" path="res://addons/tsv_to_message_box/tsv_message_box.gd" id="1_u64kl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8bbav"]
 bg_color = Color(0.486275, 0.564706, 0.882353, 0.690196)

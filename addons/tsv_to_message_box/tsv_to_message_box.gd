@@ -74,9 +74,12 @@ func generate_preview(number_of_lines) -> void:
 	show_tsv_to_generate()
 
 func show_tsv_to_generate() -> void:
-	var tsv_preview: VBoxContainer = main_plugin.vbox_tsv_preview
+	var tsv_preview: PanelContainer = main_plugin.tsv_preview
+	var generate_button: Button = main_plugin.button_generate
 	
 	tsv_preview.visible = true
+	generate_button.visible = true
+	
 		
 		
 		
