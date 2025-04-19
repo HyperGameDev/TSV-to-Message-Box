@@ -1,5 +1,2 @@
 res://sample_project.tscn
 res://addons/tsv_to_message_box/theme/ui.tres
-res://addons/tsv_to_message_box/main_plugin.tscn
-res://addons/tsv_to_message_box/tsv_message_box.tscn
-res://addons/tsv_to_message_box/label_message_1.tscn

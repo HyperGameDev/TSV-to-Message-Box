@@ -148,7 +148,7 @@ func generate_messages(scene_being_edited,box_to_add_messages_to) -> void:
 		var message = message_array[i]
 		var messages_label := preload("res://addons/tsv_to_message_box/label_message_1.tscn").instantiate()
 		messages_container.add_child(messages_label)
-		messages_label.owner = owner
+		messages_label.owner = scene_being_edited
 		messages_label.text = message
 
 		
