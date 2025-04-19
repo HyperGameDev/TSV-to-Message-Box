@@ -33,6 +33,13 @@ func _on_upload_pressed() -> void:
 func _on_file_selected(path) -> void:
 	_file_dialog.hide()
 	
+	var tsv_table_rows: Array[Node] = main_plugin.vbox_tsv_table.get_children()
+	for row in tsv_table_rows:
+		if row.name == "Row0":
+			continue
+		row.queue_free()
+
+	
 	var tsv_file_path: String = path
 	main_plugin.file_name.text = tsv_file_path
 	
@@ -52,7 +59,7 @@ func parse_tsv(data) -> void:
 		var line_data: PackedStringArray = line.split("\t")
 		
 		var message_string: String = line_data[0]
-		message_array.append(message_string)
+		message_array.append(message_string.substr(0,100))
 		
 		var signal_string: String = line_data[1] 
 		signal_array.append(signal_string)
