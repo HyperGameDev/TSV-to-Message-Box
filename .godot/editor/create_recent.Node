@@ -1,5 +1,6 @@
-VBoxContainer
 MarginContainer
+ScrollContainer
+VBoxContainer
 Button
 PanelContainer
 Label
