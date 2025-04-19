@@ -4,14 +4,19 @@ class_name MessageBox_TSV_Import extends CanvasLayer
 
 @onready var messages_container: MarginContainer = %MarginContainer_Messages
 
+@onready var button_next: Button = %Button_Next
+
+var current_message_number: int = 0
+
 
 var message_array: Array[String] = []
 
-
-func generate_messages() -> void:
-	for message in message_array:
-		var messages_label := preload("res://addons/tsv_to_message_box/label_message_1.tscn").instantiate()
-		messages_container.add_child(messages_label)
-		messages_label.owner = owner
-		messages_label.text = message
+func _ready() -> void:
+	button_next.pressed.connect(_on_next_pressed)
+	
+func _on_next_pressed():
+	messages_container.get_child(current_message_number).visible = false
+	current_message_number += 1
+	messages_container.get_child(current_message_number).visible = true
+	
 	

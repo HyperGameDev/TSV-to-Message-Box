@@ -135,17 +135,25 @@ func _on_generate_pressed() -> void:
 
 		if scene_being_edited:
 			scene_being_edited.add_child(message_box)
-			add_box_to_edited_scene(scene_being_edited,message_box)
-			transfer_messages(message_box)
+			generate_messages(scene_being_edited,message_box)
+			
+	
+func generate_messages(scene_being_edited,box_to_add_messages_to) -> void:
+	var messages_container: MarginContainer = box_to_add_messages_to.messages_container
+	
+	for i in range(message_array.size()):
+		if skip_top_row and i == 0:
+			continue
+	
+		var message = message_array[i]
+		var messages_label := preload("res://addons/tsv_to_message_box/label_message_1.tscn").instantiate()
+		messages_container.add_child(messages_label)
+		messages_label.owner = owner
+		messages_label.text = message
+
 		
-func transfer_messages(message_box) -> void:
-	for i in lines_to_generate:
-		if skip_top_row:
-			if i < 1:
-				continue
-		message_box.message_array.append(message_array[i])
-		
-	message_box.generate_messages()
+	messages_container.get_child(0).visible = true
+	add_box_to_edited_scene(scene_being_edited,box_to_add_messages_to)
 	
 func add_box_to_edited_scene(scene_with_messages,message_box_to_add):
 	message_box_to_add.owner = scene_with_messages

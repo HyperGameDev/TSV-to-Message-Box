@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dupjitbvvnx8t"]
 
 [node name="Label_Message1" type="Label"]
+visible = false
 custom_minimum_size = Vector2(750, 0)
 offset_right = 750.0
 offset_bottom = 297.0
