@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dupjitbvvnx8t"]
+
+[node name="Label_Message1" type="Label"]
+custom_minimum_size = Vector2(750, 0)
+offset_right = 750.0
+offset_bottom = 297.0
+theme_override_colors/font_outline_color = Color(0.170415, 0.202303, 0.338399, 1)
+theme_override_constants/outline_size = 21
+theme_override_font_sizes/font_size = 52
+text = "Message goes here... This is the maximum length that a message could ever be - 100 characters only!!"
+autowrap_mode = 3

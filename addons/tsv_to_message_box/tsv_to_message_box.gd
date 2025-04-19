@@ -2,9 +2,12 @@
 extends EditorPlugin
 
 var main_plugin := preload("res://addons/tsv_to_message_box/main_plugin.tscn").instantiate()
+
 var _file_dialog: FileDialog = FileDialog.new()
 
 var skip_top_row: bool = true
+
+var lines_to_generate: int
 
 var message_array: Array[String] = []
 var signal_array: Array[String] = []
@@ -15,6 +18,7 @@ func _enter_tree() -> void:
 	create_file_dialog()
 	
 	main_plugin.button_upload.pressed.connect(_on_upload_pressed)
+	main_plugin.button_generate.pressed.connect(_on_generate_pressed)
 
 func create_file_dialog() -> void:
 	var base_control : Panel = EditorInterface.get_base_control()
@@ -33,18 +37,19 @@ func _on_upload_pressed() -> void:
 func _on_file_selected(path) -> void:
 	_file_dialog.hide()
 	
-	var tsv_table_rows: Array[Node] = main_plugin.vbox_tsv_table.get_children()
-	for row in tsv_table_rows:
-		if row.name == "Row0":
-			continue
-		row.queue_free()
-
+	clear_previous_tsv_data()
 	
 	var tsv_file_path: String = path
 	main_plugin.file_name.text = tsv_file_path
 	
 	load_tsv(tsv_file_path)
 	
+func clear_previous_tsv_data() -> void:
+	var tsv_table_rows: Array[Node] = main_plugin.vbox_tsv_table.get_children()
+	for row in tsv_table_rows:
+		if row.name == "Row0":
+			continue
+		row.queue_free()
 
 func load_tsv(path) -> void:
 	var file := FileAccess.open(path, FileAccess.READ)
@@ -64,12 +69,18 @@ func parse_tsv(data) -> void:
 		var signal_string: String = line_data[1] 
 		signal_array.append(signal_string)
 		
-	generate_preview(lines.size())
+	lines_to_generate = lines.size()
+	if lines_to_generate > 0:
+		generate_preview()
 
-func generate_preview(number_of_lines) -> void:
+func generate_preview() -> void:
+	generate_table_preview()
+	show_tsv_to_generate()
+	
+func generate_table_preview() -> void:
 	var tsv_table: VBoxContainer = main_plugin.vbox_tsv_table
 	
-	for i in number_of_lines:
+	for i in lines_to_generate:
 		if skip_top_row:
 			if i < 1:
 				continue
@@ -77,8 +88,6 @@ func generate_preview(number_of_lines) -> void:
 		tsv_table.add_child(tsv_row)
 		tsv_row.get_node("%Label_Message").text = message_array[i]
 		tsv_row.get_node("%Label_Signal").text = signal_array[i]
-	
-	show_tsv_to_generate()
 
 func show_tsv_to_generate() -> void:
 	var tsv_preview: PanelContainer = main_plugin.tsv_preview
@@ -87,9 +96,26 @@ func show_tsv_to_generate() -> void:
 	tsv_preview.visible = true
 	generate_button.visible = true
 	
+func _on_generate_pressed() -> void:
+	var message_box := preload("res://addons/tsv_to_message_box/tsv_message_box.tscn").instantiate()
+	var scene_being_edited := get_editor_interface().get_edited_scene_root()
+	if scene_being_edited:
+		scene_being_edited.add_child(message_box)
+		add_box_to_edited_scene(scene_being_edited,message_box)
+		transfer_messages(message_box)
 		
+func transfer_messages(message_box) -> void:
+	for i in lines_to_generate:
+		if skip_top_row:
+			if i < 1:
+				continue
+		message_box.message_array.append(message_array[i])
 		
-		
+	message_box.generate_messages()
+	
+func add_box_to_edited_scene(scene_with_messages,message_box_to_add):
+	message_box_to_add.owner = scene_with_messages
+	
 
 func _exit_tree() -> void:
 	remove_control_from_bottom_panel(main_plugin)

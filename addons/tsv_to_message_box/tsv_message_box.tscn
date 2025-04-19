@@ -22,7 +22,7 @@ shadow_color = Color(0, 0, 0, 0.282353)
 shadow_size = 4
 shadow_offset = Vector2(4, 3)
 
-[node name="CanvasLayer" type="CanvasLayer"]
+[node name="CanvasLayer_MessageBox" type="CanvasLayer"]
 script = ExtResource("1_yo71a")
 
 [node name="Control" type="Control" parent="."]
@@ -56,21 +56,12 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/separation = 45
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="MarginContainer_Messages" type="MarginContainer" parent="Control/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/margin_left = 23
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 4
-
-[node name="Label_Message" type="Label" parent="Control/PanelContainer/MarginContainer/VBoxContainer/MarginContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(750, 0)
-layout_mode = 2
-theme_override_colors/font_outline_color = Color(0.170415, 0.202303, 0.338399, 1)
-theme_override_constants/outline_size = 21
-theme_override_font_sizes/font_size = 52
-text = "Message goes here... This is the maximum length that a message could ever be deal with it, thank you"
-autowrap_mode = 3
 
 [node name="MarginContainer2" type="MarginContainer" parent="Control/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
