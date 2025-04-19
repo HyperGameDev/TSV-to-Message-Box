@@ -1,0 +1,176 @@
+[gd_scene load_steps=8 format=3 uid="uid://c84pa14kfyf67"]
+
+[ext_resource type="Script" uid="uid://ba2oa3eyk8m7b" path="res://addons/tsv_to_message_box/main_plugin.gd" id="1_nck0t"]
+[ext_resource type="Theme" uid="uid://dfijk5eiowfdi" path="res://addons/tsv_to_message_box/theme/ui.tres" id="2_2blsu"]
+
+[sub_resource type="Theme" id="Theme_h7b3v"]
+
+[sub_resource type="FontVariation" id="FontVariation_fjywm"]
+variation_embolden = -0.45
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n1cch"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i5o2x"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ulb4q"]
+bg_color = Color(0.215902, 0.215902, 0.215902, 0.827451)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.140447, 0.140447, 0.140447, 0.643137)
+
+[node name="MainPlugin" type="Control"]
+custom_minimum_size = Vector2(0, 400)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nck0t")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+alignment = 1
+
+[node name="Label_PluginTitle" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_h7b3v")
+theme_override_font_sizes/font_size = 26
+text = "TSV to Message Box"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBox_Upload" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBox_Upload"]
+layout_mode = 2
+theme = ExtResource("2_2blsu")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBox_Upload/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="Label_FileName" type="Label" parent="MarginContainer/VBoxContainer/HBox_Upload/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.733006, 0.733005, 0.733005, 1)
+theme_override_fonts/font = SubResource("FontVariation_fjywm")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_n1cch")
+text = "Upload a file..."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Button_Upload" type="Button" parent="MarginContainer/VBoxContainer/HBox_Upload"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Upload"
+
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator3" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+theme_override_styles/separator = SubResource("StyleBoxEmpty_i5o2x")
+
+[node name="Label_Instructions" type="Label" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(485, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Review the loaded data below.
+To update the data, modify the source file and re-upload.
+When you are satisfied, press \"Generate\"."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="HSeparator4" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+theme_override_styles/separator = SubResource("StyleBoxEmpty_i5o2x")
+
+[node name="VBox_TSV_to_Generate" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="MarginContainer_Generate" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBox_TSV_to_Generate"]
+layout_mode = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_right = 200
+
+[node name="Button_Generate" type="Button" parent="MarginContainer/VBoxContainer/VBox_TSV_to_Generate/MarginContainer_Generate"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Generate"
+
+[node name="PanelContainer_LoadedTSV" type="PanelContainer" parent="MarginContainer/VBoxContainer/VBox_TSV_to_Generate"]
+layout_mode = 2
+theme = ExtResource("2_2blsu")
+
+[node name="VBox_LoadedTSV" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBox_TSV_to_Generate/PanelContainer_LoadedTSV"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Row0" type="PanelContainer" parent="MarginContainer/VBoxContainer/VBox_TSV_to_Generate/PanelContainer_LoadedTSV/VBox_LoadedTSV"]
+layout_mode = 2
+theme = ExtResource("2_2blsu")
+theme_override_styles/panel = SubResource("StyleBoxFlat_ulb4q")
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/VBox_TSV_to_Generate/PanelContainer_LoadedTSV/VBox_LoadedTSV/Row0"]
+layout_mode = 2
+theme_override_constants/v_separation = 25
+columns = 3
+
+[node name="MarginContainer_Msg" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBox_TSV_to_Generate/PanelContainer_LoadedTSV/VBox_LoadedTSV/Row0/GridContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBox_TSV_to_Generate/PanelContainer_LoadedTSV/VBox_LoadedTSV/Row0/GridContainer/MarginContainer_Msg"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme = ExtResource("2_2blsu")
+text = "Message"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/VBox_TSV_to_Generate/PanelContainer_LoadedTSV/VBox_LoadedTSV/Row0/GridContainer"]
+layout_mode = 2
+theme = ExtResource("2_2blsu")
+
+[node name="MarginContainer_Signal" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBox_TSV_to_Generate/PanelContainer_LoadedTSV/VBox_LoadedTSV/Row0/GridContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBox_TSV_to_Generate/PanelContainer_LoadedTSV/VBox_LoadedTSV/Row0/GridContainer/MarginContainer_Signal"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme = ExtResource("2_2blsu")
+text = "Signal to Emit on \"Next\""
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="HSeparator5" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+theme_override_styles/separator = SubResource("StyleBoxEmpty_i5o2x")
