@@ -13,6 +13,7 @@ var message_array: Array[String] = []
 
 func _ready() -> void:
 	button_next.pressed.connect(_on_next_pressed)
+	#messages_container.get_child(0).visible = true
 	
 func _on_next_pressed():
 	messages_container.get_child(current_message_number).visible = false

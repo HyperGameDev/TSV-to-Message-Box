@@ -1,5 +1,6 @@
-HBoxContainer
+Node
 Label
+HBoxContainer
 VBoxContainer
 CanvasLayer
 MarginContainer

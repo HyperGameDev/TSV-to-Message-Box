@@ -101,8 +101,6 @@ func _on_scene_changed(scene):
 		generate_button.disabled = false
 		generate_button.text = "Generate (in " + str(scene.name) + ")"
 	
-		
-
 func show_tsv_to_generate() -> void:
 	var tsv_preview: PanelContainer = main_plugin.tsv_preview
 	var generate_button: Button = main_plugin.button_generate
@@ -115,28 +113,43 @@ func show_tsv_to_generate() -> void:
 	
 func _on_generate_pressed() -> void:
 	var scene_being_edited := get_editor_interface().get_edited_scene_root()
-	var add_a_box: bool = true
-	
 	var hbox_error: HBoxContainer = main_plugin.hbox_error
-	var label_error_msg: Label = main_plugin.label_error_msg
+	
+	if msg_box_exists(scene_being_edited):
+		create_message_box(scene_being_edited,hbox_error)
+	else:
+		hbox_error.visible = true
+		
+		var label_error_msg: Label = main_plugin.label_error_msg
+		label_error_msg.text = "A message box already exists!"
+		
+func msg_box_exists(scene_being_edited) -> bool:
+	var add_a_box: bool = true
 	
 	for node in scene_being_edited.get_children():
 		if node is MessageBox_TSV_Import:
 			add_a_box = false
 			
-			hbox_error.visible = true
-			label_error_msg.text = "A message box already exists!"
-			
 			break
-			
-	if add_a_box:
-		hbox_error.visible = false
-		var message_box := preload("res://addons/tsv_to_message_box/tsv_message_box.tscn").instantiate()
+	
+	return add_a_box
 
-		if scene_being_edited:
+func create_message_box(scene_being_edited,hbox_error) -> void:
+		hbox_error.visible = false # If there is an error, get rid of it
+		var message_box : CanvasLayer = duplicated_msg_box_instance(scene_being_edited)		
+	
+		if get_tree().scene_being_edited:
 			scene_being_edited.add_child(message_box)
 			generate_messages(scene_being_edited,message_box)
 			
+func duplicated_msg_box_instance(scene_being_edited) -> CanvasLayer:
+	var msg_box_instance: CanvasLayer = preload("res://addons/tsv_to_message_box/tsv_message_box.tscn").instantiate()
+	var message_box: CanvasLayer = msg_box_instance
+	
+	if get_tree().scene_being_edited:
+		scene_being_edited.add_child(message_box)
+	
+	return message_box
 	
 func generate_messages(scene_being_edited,box_to_add_messages_to) -> void:
 	var messages_container: MarginContainer = box_to_add_messages_to.messages_container
@@ -151,9 +164,9 @@ func generate_messages(scene_being_edited,box_to_add_messages_to) -> void:
 		messages_label.owner = scene_being_edited
 		messages_label.text = message
 
-		
 	messages_container.get_child(0).visible = true
 	add_box_to_edited_scene(scene_being_edited,box_to_add_messages_to)
+	
 	
 func add_box_to_edited_scene(scene_with_messages,message_box_to_add):
 	message_box_to_add.owner = scene_with_messages
