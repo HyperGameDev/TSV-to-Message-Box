@@ -3,5 +3,3 @@ res://addons/tsv_to_message_box/theme/ui.tres
 res://addons/tsv_to_message_box/main_plugin.tscn
 res://addons/tsv_to_message_box/tsv_message_box.tscn
 res://addons/tsv_to_message_box/label_message_1.tscn
-res://addons/tsv_to_message_box/tsv_message_box.gd
-res://addons/tsv_to_message_box/tsv_to_message_box.gd

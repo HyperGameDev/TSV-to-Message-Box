@@ -91,10 +91,16 @@ func generate_table_preview() -> void:
 		tsv_row.get_node("%Label_Message").text = message_array[i]
 		tsv_row.get_node("%Label_Signal").text = signal_array[i]
 		
-func _on_scene_changed(scene):
+func _on_scene_changed(scene: Node):	
+	if scene == null:
+		scene_empty_error(true,scene)
+	else:
+		scene_empty_error(false,scene)
+		
+func scene_empty_error(is_empty: bool,scene: Node) -> void:
 	var generate_button: Button = main_plugin.button_generate
 	
-	if scene == null:
+	if is_empty:
 		generate_button.disabled = true
 		generate_button.text = "[SCENE IS EMPTY]"
 	else:
@@ -104,29 +110,31 @@ func _on_scene_changed(scene):
 func show_tsv_to_generate() -> void:
 	var tsv_preview: PanelContainer = main_plugin.tsv_preview
 	var generate_button: Button = main_plugin.button_generate
-	var scene_being_edited := get_editor_interface().get_edited_scene_root()
+	var scene_currently_highlited := get_editor_interface().get_edited_scene_root()
 	
 	tsv_preview.visible = true
 	
-	_on_scene_changed(scene_being_edited)
+	_on_scene_changed(scene_currently_highlited)
 	generate_button.visible = true
 	
 func _on_generate_pressed() -> void:
-	var scene_being_edited := get_editor_interface().get_edited_scene_root()
+	var scene_currently_highlited := get_editor_interface().get_edited_scene_root()
 	var hbox_error: HBoxContainer = main_plugin.hbox_error
 	
-	if msg_box_exists(scene_being_edited):
-		create_message_box(scene_being_edited,hbox_error)
+	main_plugin.button_generate.disabled = true
+	
+	if msg_box_exists(scene_currently_highlited):
+		create_message_box(scene_currently_highlited,hbox_error)
 	else:
 		hbox_error.visible = true
 		
 		var label_error_msg: Label = main_plugin.label_error_msg
 		label_error_msg.text = "A message box already exists!"
 		
-func msg_box_exists(scene_being_edited) -> bool:
+func msg_box_exists(scene_currently_highlited) -> bool:
 	var add_a_box: bool = true
-	
-	for node in scene_being_edited.get_children():
+
+	for node in scene_currently_highlited.get_children():
 		if node is MessageBox_TSV_Import:
 			add_a_box = false
 			
@@ -134,24 +142,42 @@ func msg_box_exists(scene_being_edited) -> bool:
 	
 	return add_a_box
 
-func create_message_box(scene_being_edited,hbox_error) -> void:
-		hbox_error.visible = false # If there is an error, get rid of it
-		var message_box : CanvasLayer = duplicated_msg_box_instance(scene_being_edited)		
+func create_message_box(scene_currently_highlited,hbox_error) -> void:
+	hbox_error.visible = false # If there is an error, get rid of it
 	
-		if get_tree().scene_being_edited:
-			scene_being_edited.add_child(message_box)
-			generate_messages(scene_being_edited,message_box)
+	duplicated_msg_box_instance(scene_currently_highlited)		
+
+func duplicated_msg_box_instance(scene_currently_highlited) -> void:
+	var msg_box_to_instantiate: CanvasLayer = preload("res://addons/tsv_to_message_box/tsv_message_box.tscn").instantiate()
+	
+	var msg_box_instance: CanvasLayer
+	
+	if scene_currently_highlited:
+		scene_empty_error(false,scene_currently_highlited)
+		scene_currently_highlited.add_child(msg_box_to_instantiate)
+	else:
+		scene_empty_error(true,scene_currently_highlited)
+		
+	for node in scene_currently_highlited.get_children():
+		if node is MessageBox_TSV_Import:
+			msg_box_instance = node
+			break
 			
-func duplicated_msg_box_instance(scene_being_edited) -> CanvasLayer:
-	var msg_box_instance: CanvasLayer = preload("res://addons/tsv_to_message_box/tsv_message_box.tscn").instantiate()
-	var message_box: CanvasLayer = msg_box_instance
+	var message_box: CanvasLayer = msg_box_instance.duplicate()
 	
-	if get_tree().scene_being_edited:
-		scene_being_edited.add_child(message_box)
+	msg_box_instance.queue_free()
 	
-	return message_box
+	add_message_box_to_scene(message_box,scene_currently_highlited)
 	
-func generate_messages(scene_being_edited,box_to_add_messages_to) -> void:
+func add_message_box_to_scene(message_box,scene_currently_highlited) -> void:
+	if scene_currently_highlited:
+		scene_empty_error(false,scene_currently_highlited)
+		scene_currently_highlited.add_child(message_box)
+		generate_messages(scene_currently_highlited,message_box)
+	else:
+		scene_empty_error(true,scene_currently_highlited)
+			
+func generate_messages(scene_currently_highlited,box_to_add_messages_to) -> void:
 	var messages_container: MarginContainer = box_to_add_messages_to.messages_container
 	
 	for i in range(message_array.size()):
@@ -161,15 +187,17 @@ func generate_messages(scene_being_edited,box_to_add_messages_to) -> void:
 		var message = message_array[i]
 		var messages_label := preload("res://addons/tsv_to_message_box/label_message_1.tscn").instantiate()
 		messages_container.add_child(messages_label)
-		messages_label.owner = scene_being_edited
+		messages_label.owner = scene_currently_highlited
 		messages_label.text = message
 
 	messages_container.get_child(0).visible = true
-	add_box_to_edited_scene(scene_being_edited,box_to_add_messages_to)
+	add_box_to_edited_scene(scene_currently_highlited,box_to_add_messages_to)
 	
 	
 func add_box_to_edited_scene(scene_with_messages,message_box_to_add):
 	message_box_to_add.owner = scene_with_messages
+	
+	main_plugin.button_generate.disabled = false
 	
 
 func _exit_tree() -> void:
