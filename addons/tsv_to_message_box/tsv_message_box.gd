@@ -37,3 +37,4 @@ func _on_close_message_box() -> void:
 	messages_container.get_child(current_message_number).visible = false
 	current_message_number = 0
 	messages_container.get_child(0).visible = true
+	

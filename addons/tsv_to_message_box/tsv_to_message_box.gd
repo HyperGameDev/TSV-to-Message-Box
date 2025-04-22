@@ -2,7 +2,6 @@
 extends EditorPlugin
 
 var main_plugin := preload("res://addons/tsv_to_message_box/main_plugin.tscn").instantiate()
-var msg_box_script_path: String = "res://addons/tsv_to_message_box/tsv_message_box.gd"
 
 var _file_dialog: FileDialog = FileDialog.new()
 
@@ -160,41 +159,12 @@ func add_box_to_edited_scene(scene_with_messages,message_box_to_add):
 				
 	message_box_to_add.owner = scene_with_messages
 	
+	
+	
 	if not get_parent().is_editable_instance(message_box_to_add):
 		get_parent().set_editable_instance(message_box_to_add,true)
-		
-	append_signals_to_script(message_box_to_add)
 	
-func append_signals_to_script(added_message_box: CanvasLayer) -> void:
-	var file := FileAccess.open(msg_box_script_path, FileAccess.READ)
-	var script := file.get_as_text()
-	file.close()
 	
-	var script_lines: PackedStringArray = script.split("\n")
-	var new_signal_line_pos: int = 2
-	
-	for i in range(signal_array.size()):
-		if skip_top_row and i == 0:
-			continue
-
-		if signal_array[i] == "" or signal_array[i] == "\r":
-			continue
-		var something: String = "Something"
-		script_lines.append("print(" + something + ")")
-	
-	file = FileAccess.open(msg_box_script_path, FileAccess.WRITE)
-	file.store_string("\n".join(script_lines))
-	file.close()
-	
-	var script_resource = load(msg_box_script_path) as Script
-	
-	EditorInterface.get_resource_filesystem().scan()
-	EditorInterface.get_resource_filesystem().reimport_files([msg_box_script_path])
-	
-	EditorInterface.get_resource_filesystem().update_file(msg_box_script_path)
-	
-	added_message_box.set_script(null)
-	added_message_box.set_script(script_resource)
 
 func _exit_tree() -> void:
 	remove_control_from_bottom_panel(main_plugin)
