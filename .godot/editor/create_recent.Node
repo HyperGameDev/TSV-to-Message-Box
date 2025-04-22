@@ -1,3 +1,4 @@
+Button
 MeshInstance3D
 HBoxContainer
 Label
@@ -5,7 +6,6 @@ VBoxContainer
 CanvasLayer
 MarginContainer
 ScrollContainer
-Button
 PanelContainer
 Control
 GridContainer

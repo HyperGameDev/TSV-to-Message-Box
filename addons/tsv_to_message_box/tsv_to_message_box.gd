@@ -158,7 +158,11 @@ func generate_messages(scene_being_edited,box_to_add_messages_to) -> void:
 func add_box_to_edited_scene(scene_with_messages,message_box_to_add):
 				
 	message_box_to_add.owner = scene_with_messages
-		
+	
+	
+	
+	if not get_parent().is_editable_instance(message_box_to_add):
+		get_parent().set_editable_instance(message_box_to_add,true)
 	
 	
 

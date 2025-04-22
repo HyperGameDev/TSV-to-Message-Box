@@ -6,3 +6,4 @@ res://addons/tsv_to_message_box/tsv_message_box.tscn
 res://addons/tsv_to_message_box/label_message_1.tscn
 res://addons/tsv_to_message_box/tsv_message_box.gd
 res://test.tscn
+res://button.gd
