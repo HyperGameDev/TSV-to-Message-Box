@@ -156,7 +156,10 @@ func generate_messages(scene_being_edited,box_to_add_messages_to) -> void:
 	add_box_to_edited_scene(scene_being_edited,box_to_add_messages_to)
 	
 func add_box_to_edited_scene(scene_with_messages,message_box_to_add):
+				
 	message_box_to_add.owner = scene_with_messages
+		
+	
 	
 
 func _exit_tree() -> void:
