@@ -18,7 +18,7 @@ func _ready() -> void:
 		
 	button_next.pressed.connect(_on_next_pressed)
 	
-	if messages_container.get_children().size() > 0:
+	if messages_container.get_children():
 		messages_container.get_child(0).visible = true
 	
 func _on_next_pressed():
