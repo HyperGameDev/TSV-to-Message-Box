@@ -52,6 +52,8 @@ func _on_file_selected(path) -> void:
 	
 	clear_previous_tsv_data()
 	
+	check_for_row_skip()
+	
 	var tsv_file_path: String = path
 	main_plugin.file_name.text = tsv_file_path
 	
@@ -59,10 +61,15 @@ func _on_file_selected(path) -> void:
 	
 func clear_previous_tsv_data() -> void:
 	var tsv_table_rows: Array[Node] = main_plugin.vbox_tsv_table.get_children()
+	message_array.clear()
 	for row in tsv_table_rows:
 		if row.name == "Row0":
 			continue
 		row.queue_free()
+		
+func check_for_row_skip() -> void:
+	skip_top_row = main_plugin.cbox_skip_first.button_pressed
+		
 
 func load_tsv(path) -> void:
 	var file := FileAccess.open(path, FileAccess.READ)
