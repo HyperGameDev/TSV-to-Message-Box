@@ -7,8 +7,9 @@ This project includes a plugin that will take a .tsv file and convert it to a me
 
 # Credits
 <li>Lýz (Primary Dev)</li>
-<li>PawnxPawn</li>
+<li>PawnxPawn (Primary Helper & Debugger</li>
 <li>Ojor Emmanuel</li>
+<li>murvkins</li>
 <li>Gargoil</li>
 <li>R0fael</li>
 <li>Lord Overflow</li>
