@@ -10,7 +10,6 @@ var skip_top_row: bool = true
 var lines_to_generate: int
 
 var message_array: Array[String] = []
-var signal_array: Array[String] = []
 
 func _enter_tree() -> void:
 	add_control_to_bottom_panel(main_plugin,"TSV to Msg Box")
@@ -21,6 +20,7 @@ func _enter_tree() -> void:
 	
 	main_plugin.button_upload.pressed.connect(_on_upload_pressed)
 	main_plugin.button_generate.pressed.connect(_on_generate_pressed)
+	main_plugin.button_reset.pressed.connect(_on_reset_pressed)
 
 func create_file_dialog() -> void:
 	var base_control : Panel = EditorInterface.get_base_control()
@@ -35,9 +35,20 @@ func create_file_dialog() -> void:
 func _on_upload_pressed() -> void:
 	_file_dialog.show()
 	_file_dialog.popup_centered_ratio(.5)
+	
+func _on_reset_pressed() -> void:
+	show_preview_elements(false)
+	main_plugin.file_name.text = "Upload a file..."
+	reset_buttons(false)
+	
+func reset_buttons(do_reset:bool) -> void:
+	main_plugin.button_reset.visible = do_reset
+	main_plugin.cbox_skip_first.disabled = do_reset
+	main_plugin.button_upload.disabled = do_reset
 
 func _on_file_selected(path) -> void:
 	_file_dialog.hide()
+	reset_buttons(true)
 	
 	clear_previous_tsv_data()
 	
@@ -68,9 +79,6 @@ func parse_tsv(data) -> void:
 		var message_string: String = line_data[0]
 		message_array.append(message_string.substr(0,100))
 		
-		var signal_string: String = line_data[1] 
-		signal_array.append(signal_string)
-		
 	lines_to_generate = lines.size()
 	if lines_to_generate > 0:
 		generate_preview()
@@ -89,7 +97,6 @@ func generate_table_preview() -> void:
 		var tsv_row := preload("res://addons/tsv_to_message_box/row.tscn").instantiate()
 		tsv_table.add_child(tsv_row)
 		tsv_row.get_node("%Label_Message").text = message_array[i]
-		tsv_row.get_node("%Label_Signal").text = signal_array[i]
 		
 func _on_scene_changed(scene):
 	var generate_button: Button = main_plugin.button_generate
@@ -101,17 +108,21 @@ func _on_scene_changed(scene):
 		generate_button.disabled = false
 		generate_button.text = "Generate (in " + str(scene.name) + ")"
 	
-		
+func show_preview_elements(do_show: bool) -> void:
+	var tsv_preview: PanelContainer = main_plugin.tsv_preview
+	var tsv_instructions: Label = main_plugin.tsv_instructions
+	var generate_button: Button = main_plugin.button_generate
+	
+	tsv_preview.visible = do_show
+	tsv_instructions.visible = do_show
+	generate_button.visible = do_show
 
 func show_tsv_to_generate() -> void:
-	var tsv_preview: PanelContainer = main_plugin.tsv_preview
-	var generate_button: Button = main_plugin.button_generate
 	var scene_being_edited := get_editor_interface().get_edited_scene_root()
 	
-	tsv_preview.visible = true
+	show_preview_elements(true)
 	
 	_on_scene_changed(scene_being_edited)
-	generate_button.visible = true
 	
 func _on_generate_pressed() -> void:
 	var scene_being_edited := get_editor_interface().get_edited_scene_root()

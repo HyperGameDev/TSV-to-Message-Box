@@ -11,3 +11,7 @@ extends Control
 
 @onready var hbox_error: HBoxContainer = %HBox_ERROR
 @onready var label_error_msg: Label = %Label_ERROR_MSG
+
+@onready var button_reset: Button = %Button_Reset
+@onready var cbox_skip_first: CheckBox = %CheckBox_SkipFirst
+@onready var tsv_instructions: Label = %Label_Instructions
