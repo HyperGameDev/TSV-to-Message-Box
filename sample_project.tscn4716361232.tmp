@@ -76,7 +76,7 @@ theme_override_font_sizes/font_size = 52
 text = "This is a message for you"
 autowrap_mode = 3
 
-[node name="@Label@67473" type="Label" parent="CanvasLayer_MessageBox/Control/PanelContainer/MarginContainer/VBoxContainer/MarginContainer_Messages" index="1" instance=ExtResource("4_th6s3")]
+[node name="@Label@59079" type="Label" parent="CanvasLayer_MessageBox/Control/PanelContainer/MarginContainer/VBoxContainer/MarginContainer_Messages" index="1" instance=ExtResource("4_th6s3")]
 visible = false
 custom_minimum_size = Vector2(750, 0)
 layout_mode = 2
@@ -86,7 +86,7 @@ theme_override_font_sizes/font_size = 52
 text = "You have read more, and therefore acquired great knowledge."
 autowrap_mode = 3
 
-[node name="@Label@67474" type="Label" parent="CanvasLayer_MessageBox/Control/PanelContainer/MarginContainer/VBoxContainer/MarginContainer_Messages" index="2" instance=ExtResource("4_th6s3")]
+[node name="@Label@59080" type="Label" parent="CanvasLayer_MessageBox/Control/PanelContainer/MarginContainer/VBoxContainer/MarginContainer_Messages" index="2" instance=ExtResource("4_th6s3")]
 visible = false
 custom_minimum_size = Vector2(750, 0)
 layout_mode = 2
@@ -96,7 +96,7 @@ theme_override_font_sizes/font_size = 52
 text = "Thanks to your diligence, the reward shall be."
 autowrap_mode = 3
 
-[node name="@Label@67475" type="Label" parent="CanvasLayer_MessageBox/Control/PanelContainer/MarginContainer/VBoxContainer/MarginContainer_Messages" index="3" instance=ExtResource("4_th6s3")]
+[node name="@Label@59081" type="Label" parent="CanvasLayer_MessageBox/Control/PanelContainer/MarginContainer/VBoxContainer/MarginContainer_Messages" index="3" instance=ExtResource("4_th6s3")]
 visible = false
 custom_minimum_size = Vector2(750, 0)
 layout_mode = 2
@@ -106,7 +106,7 @@ theme_override_font_sizes/font_size = 52
 text = "Thank you for your presence."
 autowrap_mode = 3
 
-[node name="@Label@67476" type="Label" parent="CanvasLayer_MessageBox/Control/PanelContainer/MarginContainer/VBoxContainer/MarginContainer_Messages" index="4" instance=ExtResource("4_th6s3")]
+[node name="@Label@59082" type="Label" parent="CanvasLayer_MessageBox/Control/PanelContainer/MarginContainer/VBoxContainer/MarginContainer_Messages" index="4" instance=ExtResource("4_th6s3")]
 visible = false
 custom_minimum_size = Vector2(750, 0)
 layout_mode = 2
