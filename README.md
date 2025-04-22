@@ -14,7 +14,7 @@ See an example of the result <a href="https://hypergamedev.itch.io/tsv-to-messag
 
 # Credits
 <li>Lýz (Primary Dev)</li>
-<li>PawnxPawn (Primary Helper & Debugger</li>
+<li>PawnxPawn (Primary Helper & Debugger)</li>
 <li>Ojor Emmanuel</li>
 <li>murvkins</li>
 <li>Gargoil</li>
